@@ -1,7 +1,5 @@
-
-board_size = int(input("Please enter your desired tic tac toe board size:"))
-
 def draw_board(board):
+    board_size = len(board)
     for row_idx, row in enumerate(board):
         for col_idx, value in enumerate(row):
             print(f"{value}", end ="")
@@ -14,32 +12,14 @@ def draw_board(board):
         
 
 
-def print_coordinates(board_size):
-    for row_idx, row in enumerate(board):
-        for col_idx, value in enumerate(row):
-            if col
-            print(f"{value}", end ="")
-            if col_idx != board_size - 1:
-                print("|", end ="")
-        print("")
-        if row_idx != board_size - 1:
-            print("_+"* (board_size - 1), end ="")
-            print("_")
-
-
-def take_next_move(player_no, board):
-    if player_no == 1:
-        character = "X"
-    if player_no == 2:
-        character = "O" 
-    move = input(f"Your Turn Player {player_no}! Your Character is {character}. Enter your next move with x,y coordinates:")
-    coordinates = move.split(",")
-    #need to create code to validate we received two ints separated by a comma
-    row_idx = coordinates[0].strip()
-    col_idx = coordinates[1].strip()
-    row_idx = int(row_idx)
-    col_idx = int(col_idx)
-    if is_valid(row_idx, col_idx) is False:
+def take_next_move(character, board):
+    if character == 'X':
+        player_no = 1
+    else:
+        player_no = 2
+    move = input(f"Your Turn Player {player_no}! Your Character is {character}. Enter your next move with x,y coordinates: ")
+    row_idx, col_idx = clean_up_coordinates(move)
+    if is_valid(row_idx, col_idx, board) is False:
         print("INCORRECT INPUT. PLEASE ENTER YOUR MOVE XY COORDINATES SEPARATED BY A COMMA.")
         return take_next_move(player_no, board)
     if board[row_idx][col_idx] != " ":
@@ -50,6 +30,14 @@ def take_next_move(player_no, board):
     return character
     
 
+def clean_up_coordinates(move):
+    coordinates = move.split(",")
+    row_idx = coordinates[0].strip()
+    col_idx = coordinates[1].strip()
+    row_idx = int(row_idx)
+    col_idx = int(col_idx)
+    return row_idx, col_idx
+
 # west = board[row_idx][col_idx - 1]
 # north = board[row_idx - 1][col_idx]
 # east = board[row_idx][col_idx + 1]
@@ -59,6 +47,7 @@ def take_next_move(player_no, board):
 
 
 def check_if_player_won(board, character):
+    board_size = len(board)
     #check going west to east
     for row_idx, row in enumerate(board):
         w2ematch = 0
@@ -91,7 +80,6 @@ def check_if_player_won(board, character):
             adiagmatch += 1
         if adiagmatch == board_size:
             return f"winner is {character}"
-    
     #determine draw
     drawmatch = 0
     for row_idx, row in enumerate(board):
@@ -102,21 +90,28 @@ def check_if_player_won(board, character):
                 return f"no winner, draw game"
 
 
-def is_valid(row_idx, col_idx):
+def is_valid(row_idx, col_idx, board):
+    board_size = len(board)
     return row_idx >= 0 and row_idx < board_size and col_idx >= 0 and col_idx < board_size
 
 
 def run_game():
+    board_size = int(input("Please enter your desired tic tac toe board size:"))
     board = [[" " for yaxis in range(board_size)] for xaxis in range(board_size)]
-    for turn in range(board_size ** 2):
-        player_no = turn % 2 + 1
+    character = 'X'
+    while True:
+        print(f"this is the {character}")
         draw_board(board)        
-        character = take_next_move(player_no, board)
+        character = take_next_move(character, board)
         player_winner = check_if_player_won(board, character)
         if player_winner != None:
             print(f"{player_winner}")
             draw_board(board)
             break
+        if character == 'X':
+            character = 'O'
+        else:
+            character = 'X'
 
 if __name__ == "__main__": 
     run_game()
