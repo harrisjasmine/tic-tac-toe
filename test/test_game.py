@@ -7,13 +7,13 @@ def board():
     return [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
 
 
-def test_if_selected_move_is_on_the_board():
-    assert False == is_valid(-1, -1)
-    assert True == is_valid(0, 0)
-    assert True == is_valid(1, 1)
-    assert False == is_valid(3, 0)
-    assert False == is_valid(0, 3)
-    assert False == is_valid(0, -1)
+def test_if_selected_move_is_on_the_board(board):
+    assert False == is_valid(-1, -1, board)
+    assert True == is_valid(0, 0, board)
+    assert True == is_valid(1, 1, board)
+    assert False == is_valid(3, 0, board)
+    assert False == is_valid(0, 3, board)
+    assert False == is_valid(0, -1, board)
 
 
 def test_can_somone_win_horizontally(board):
@@ -45,6 +45,10 @@ def test_can_someone_win_ascending_diagonally(board):
 # def test_can_a_player_override_another_player(board):
 #     board[0][0] = 'X'
     
+
+def test_retrive_player_information():
+    pass
+
 
 def test_draw():
     board = [['X', 'O', 'X'], ['X', 'O', 'X'], ['O', 'X', 'O']]

@@ -45,6 +45,8 @@ def clean_up_coordinates(move):
         col_idx = None
     else:
         col_idx = coordinates[1]
+    row_idx = coordinates[0].strip()
+    col_idx = coordinates[1].strip()
     row_idx = int(row_idx)
     col_idx = int(col_idx)
     return row_idx, col_idx
